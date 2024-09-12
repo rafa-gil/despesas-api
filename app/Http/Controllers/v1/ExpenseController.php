@@ -11,7 +11,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ExpenseController extends Controller

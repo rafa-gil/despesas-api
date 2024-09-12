@@ -2,7 +2,6 @@
 
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 it('should login successfully', function () {
     $user = User::factory()->createOne();

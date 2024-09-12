@@ -1,104 +1,80 @@
 <?php
 
-namespace Tests\Feature\Auth;
-
-use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class AuthControllerTest extends TestCase
-{
-    #[Test]
-    public function it_should_login_successfully(): void
-    {
-        $user = User::factory()->createOne();
+it('should login successfully', function () {
+    $user = User::factory()->createOne();
 
-        $response = $this->postJson('/api/login', [
-            'email'    => $user->email,
-            'password' => 'password',
-        ]);
+    $response = $this->postJson('/api/login', [
+        'email'    => $user->email,
+        'password' => 'password',
+    ]);
 
-        $response->assertStatus(200);
-    }
+    $response->assertStatus(200);
+});
 
-    #[Test]
-    public function it_should_not_login_with_invalid_credentials(): void
-    {
-        $response = $this->postJson('/api/login', [
-            'email'    => fake()->email,
-            'password' => 'password',
-        ]);
+it('should not login with invalid credentials', function () {
+    $response = $this->postJson('/api/login', [
+        'email'    => fake()->email,
+        'password' => 'password',
+    ]);
 
-        $response->assertStatus(401);
+    $response->assertStatus(401);
+    expect($response->json('message'))->toBe('Unauthorized');
+});
 
-        $this->containsEqual('Unauthorized', $response->json('message'));
-    }
+it('should logout successfully', function () {
+    $user = User::factory()->createOne();
 
-    #[Test]
-    public function it_should_logout_successfully(): void
-    {
-        $user = User::factory()->createOne();
+    Sanctum::actingAs($user);
 
-        Sanctum::actingAs($user);
+    $response = $this->getJson('/api/logout');
 
-        $response = $this->getJson('/api/logout');
+    $response->assertStatus(200);
+    expect($response->json('message'))->toBe('Logout successfully');
+});
 
-        $response->assertStatus(200);
+it('should logout with invalid token', function () {
+    $response = $this->getJson('/api/logout');
 
-        $this->containsEqual('Logout successfully', $response->json('message'));
-    }
+    $response->assertStatus(401);
+});
 
-    #[Test]
-    public function it_should_logout_with_invalid_token(): void
-    {
-        $response = $this->getJson('/api/logout');
+it('should register successfully', function () {
+    $response = $this->postJson('/api/register', [
+        'name'     => fake()->name,
+        'email'    => fake()->email,
+        'password' => 'password',
+    ]);
 
-        $response->assertStatus(401);
-    }
+    $response->assertStatus(201);
+    expect($response->json('message'))->toBe('Successfully created');
+});
 
-    #[Test]
-    public function it_should_register_successfully(): void
-    {
-        $response = $this->postJson('/api/register', [
-            'name'     => fake()->name,
-            'email'    => fake()->email,
-            'password' => 'password',
-        ]);
+it('should not register with invalid data', function () {
+    $response = $this->postJson('/api/register', [
+        'name'  => fake()->name,
+        'email' => fake()->email,
+    ]);
 
-        $response->assertStatus(201);
+    $response->assertStatus(422);
+    expect($response->json('message'))->toBe('The password field is required.');
 
-        $this->containsEqual('Successfully created', $response->json('message'));
-    }
+    $response = $this->postJson('/api/register', [
+        'name'     => fake()->name,
+        'password' => 'password',
+    ]);
 
-    #[Test]
-    public function it_should_not_register_with_invalid_data(): void
-    {
-        $response = $this->postJson('/api/register', [
-            'name'  => fake()->name,
-            'email' => fake()->email,
-        ]);
+    $response->assertStatus(422);
+    expect($response->json('message'))->toBe('The email field is required.');
 
-        $response->assertStatus(422);
+    $response = $this->postJson('/api/register', [
+        'email'    => fake()->email,
+        'password' => 'password',
+    ]);
 
-        $this->containsEqual('The password field is required.', $response->json('message'));
-
-        $response = $this->postJson('/api/register', [
-            'name'     => fake()->name,
-            'password' => 'password',
-        ]);
-
-        $response->assertStatus(422);
-
-        $this->containsEqual('The email field is required.', $response->json('message'));
-
-        $response = $this->postJson('/api/register', [
-            'email'    => fake()->email,
-            'password' => 'password',
-        ]);
-
-        $response->assertStatus(422);
-
-        $this->containsEqual('The name field is required.', $response->json('message'));
-    }
-}
+    $response->assertStatus(422);
+    expect($response->json('message'))->toBe('The name field is required.');
+});

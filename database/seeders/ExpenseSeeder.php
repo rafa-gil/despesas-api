@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Expenses;
+use App\Models\Expense;
 use Illuminate\Database\Seeder;
 
-class ExpensesSeeder extends Seeder
+class ExpenseSeeder extends Seeder
 {
     public function run(): void
     {
-        Expenses::factory()->count(100)->create();
+        Expense::factory()->count(100)->create();
     }
 }

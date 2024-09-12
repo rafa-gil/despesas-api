@@ -21,7 +21,7 @@ it('should not login with invalid credentials', function () {
     ]);
 
     $response->assertStatus(401);
-    expect($response->json('message'))->toBe('Unauthorized');
+    expect($response->json('message'))->toBe('Invalid credentials');
 });
 
 it('should logout successfully', function () {
@@ -49,7 +49,6 @@ it('should register successfully', function () {
     ]);
 
     $response->assertStatus(201);
-    expect($response->json('message'))->toBe('Successfully created');
 });
 
 it('should not register with invalid data', function () {

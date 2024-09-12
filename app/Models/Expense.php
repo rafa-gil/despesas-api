@@ -21,8 +21,8 @@ class Expense extends Model
     protected function amountInCents(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => number_format($value / 100, 2, ',', '.'),
-            set: fn ($value) => (int) (preg_replace('/[^\d]/', '', $value) * 100)
+            get: fn ($value) => $value / 100,
+            set: fn ($value) => $value * 100
         );
     }
 

@@ -10,7 +10,7 @@ use Tests\TestCase;
 class AuthControllerTest extends TestCase
 {
     #[Test]
-    public function it_should_login_successfully()
+    public function it_should_login_successfully(): void
     {
         $user = User::factory()->createOne();
 
@@ -23,7 +23,7 @@ class AuthControllerTest extends TestCase
     }
 
     #[Test]
-    public function it_should_not_login_with_invalid_credentials()
+    public function it_should_not_login_with_invalid_credentials(): void
     {
         $response = $this->postJson('/api/login', [
             'email'    => fake()->email,
@@ -36,7 +36,7 @@ class AuthControllerTest extends TestCase
     }
 
     #[Test]
-    public function it_should_logout_successfully()
+    public function it_should_logout_successfully(): void
     {
         $user = User::factory()->createOne();
 
@@ -50,7 +50,7 @@ class AuthControllerTest extends TestCase
     }
 
     #[Test]
-    public function it_should_logout_with_invalid_token()
+    public function it_should_logout_with_invalid_token(): void
     {
         $response = $this->getJson('/api/logout');
 
@@ -58,7 +58,7 @@ class AuthControllerTest extends TestCase
     }
 
     #[Test]
-    public function it_should_register_successfully()
+    public function it_should_register_successfully(): void
     {
         $response = $this->postJson('/api/register', [
             'name'     => fake()->name,
@@ -72,7 +72,7 @@ class AuthControllerTest extends TestCase
     }
 
     #[Test]
-    public function it_should_not_register_with_invalid_data()
+    public function it_should_not_register_with_invalid_data(): void
     {
         $response = $this->postJson('/api/register', [
             'name'  => fake()->name,

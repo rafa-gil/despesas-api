@@ -12,7 +12,7 @@ return new class () extends Migration {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('description')->max(191);
             $table->date('date');
-            $table->unsignedBigInteger('amount_in_cents');
+            $table->decimal('amount', 10, 2);
             $table->timestamps();
         });
     }

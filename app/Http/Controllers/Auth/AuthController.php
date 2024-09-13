@@ -7,9 +7,38 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Auth, Hash};
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
-
+use OpenApi\Annotations as OA;
 class AuthController extends Controller
 {
+    /**
+     * @OA\Post(
+     *    path="/api/login",
+     *    tags={"Auth"},
+     *    summary="Login",
+     *    description="Login",
+     *    operationId="login",
+     *    @OA\RequestBody(
+     *       required=true,
+     *       @OA\JsonContent(
+     *          required={"email", "password"},
+     *          @OA\Property(property="email", type="string", format="email", example="mail@mail.com"),
+     *          @OA\Property(property="password", type="string", format="password", example="password")
+     *       )
+     *    ),
+     *    @OA\Response(
+     *       response=200,
+     *       description="Successful operation",
+     *       @OA\JsonContent(
+     *          @OA\Property(property="access_token", type="string", example="your-access-token-here"),
+     *       )
+     *    ),
+     *    @OA\Response(
+     *       response=401,
+     *       description="Invalid credentials"
+     *    )
+     * )
+    */
+
     public function login(Request $request)
     {
         if (Auth::attempt($request->only('email', 'password'))) {
@@ -23,6 +52,23 @@ class AuthController extends Controller
         ], ResponseAlias::HTTP_UNAUTHORIZED);
     }
 
+    /**
+     * @OA\Post(
+     *    path="/api/logout",
+     *    security={{"bearerAuth": {}}},
+     *    tags={"Auth"},
+     *    summary="Logout",
+     *    description="Logout",
+     *    operationId="logout",
+     *    @OA\Response(
+     *       response=200,
+     *       description="Successful operation",
+     *       @OA\JsonContent(
+     *          @OA\Property(property="message", type="string", example="Logout successfully"),
+     *       )
+     *    )
+     * )
+    */
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
@@ -31,6 +77,36 @@ class AuthController extends Controller
             'message' => 'Logout successfully',
         ], ResponseAlias::HTTP_OK);
     }
+
+    /**
+         * @OA\Post(
+         *    path="/api/register",
+         *    tags={"Auth"},
+         *    summary="Register",
+         *    description="Register",
+         *    operationId="register",
+         *    @OA\RequestBody(
+         *       required=true,
+         *       @OA\JsonContent(
+         *          required={"name", "email", "password"},
+         *          @OA\Property(property="name", type="string", example="John Doe"),
+         *          @OA\Property(property="email", type="string", format="email", example="mail@mail.com"),
+         *          @OA\Property(property="password", type="string", format="password", example="password")
+         *       )
+         *    ),
+         *    @OA\Response(
+         *       response=201,
+         *       description="Successful registration",
+         *       @OA\JsonContent(
+         *          @OA\Property(property="access_token", type="string", example="your-access-token-here"),
+         *       )
+         *    ),
+         *    @OA\Response(
+         *       response=400,
+         *       description="Bad Request"
+         *    )
+         * )
+     */
 
     public function register(Request $request)
     {

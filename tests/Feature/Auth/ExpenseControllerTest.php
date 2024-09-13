@@ -17,13 +17,13 @@ it('should create expense', function () {
     $response = $this->post(route('expenses.store'), [
         'description'     => 'Test Expense',
         'date'            => now()->format('Y-m-d'),
-        'amount_in_cents' => 10000,
+        'amount' => "1.000",
     ]);
 
     $this->assertDatabaseHas('expenses', [
         'description'     => 'Test Expense',
         'date'            => now()->format('Y-m-d'),
-        'amount_in_cents' => 1000000,
+        'amount' => "1.000",
         'user_id'         => $user->id,
     ]);
 
@@ -40,13 +40,13 @@ it('should create expense and send notification', function () {
     $response = $this->post(route('expenses.store'), [
         'description'     => 'Test Expense',
         'date'            => now()->format('Y-m-d'),
-        'amount_in_cents' => 10000,
+        'amount' => "1.000",
     ]);
 
     $this->assertDatabaseHas('expenses', [
         'description'     => 'Test Expense',
         'date'            => now()->format('Y-m-d'),
-        'amount_in_cents' => 1000000,
+        'amount' => "1.000",
         'user_id'         => $user->id,
     ]);
 
@@ -63,19 +63,19 @@ it('should update expense', function () {
     $expense = $user->expenses()->create([
         'description'     => 'Test Expense',
         'date'            => now()->format('Y-m-d'),
-        'amount_in_cents' => 10000,
+        'amount' => "1.000",
     ]);
 
     $response = $this->put(route('expenses.update', $expense), [
         'description'     => 'Updated Test Expense',
         'date'            => now()->format('Y-m-d'),
-        'amount_in_cents' => 20000,
+        'amount' => "2.000",
     ]);
 
     $this->assertDatabaseHas('expenses', [
         'description'     => 'Updated Test Expense',
         'date'            => now()->format('Y-m-d'),
-        'amount_in_cents' => 20000,
+        'amount' => "2.000",
         'user_id'         => $user->id,
     ]);
 
@@ -91,13 +91,13 @@ it('should not allow update expense another user', function () {
     $expense = $user->expenses()->create([
         'description'     => 'Test Expense',
         'date'            => now()->format('Y-m-d'),
-        'amount_in_cents' => 10000,
+        'amount' => "1.000",
     ]);
 
     $response = $this->put(route('expenses.update', $expense), [
         'description'     => 'Updated Test Expense',
         'date'            => now()->format('Y-m-d'),
-        'amount_in_cents' => 20000,
+        'amount' => "2.000",
     ]);
 
     $response->assertStatus(ResponseAlias::HTTP_FORBIDDEN);
@@ -111,7 +111,7 @@ it('should delete expense', function () {
     $expense = $user->expenses()->create([
         'description'     => 'Test Expense',
         'date'            => now()->format('Y-m-d'),
-        'amount_in_cents' => 10000,
+        'amount' => "1.000",
     ]);
 
     $response = $this->delete(route('expenses.destroy', $expense));

@@ -16,9 +16,9 @@ class ExpenseStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description'     => 'required|string|min:5|max:191',
-            'date'            => 'required|before_or_equal:today',
-            'amount_in_cents' => 'required|integer',
+            'description' => 'required|string|min:5|max:191',
+            'date'        => 'required|before_or_equal:today',
+            'amount'      => 'numeric|decimal:2|between:0.01,999999.99'
         ];
     }
 }

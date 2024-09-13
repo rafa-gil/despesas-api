@@ -11,25 +11,25 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use OpenApi\Annotations as OA;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
-  /**
-     * @OA\OpenApi(
-     *    @OA\Info(
-     *       title="Despesas API",
-     *       version="1.0.0",
-     *       description="API para gerenciamento de despesas",
-     *       @OA\Contact(
-     *           email="suporte@exemplo.com"
-     *       )
-     *    ),
-     *    @OA\Server(
-     *       url="http://localhost/",
-     *       description="Servidor local"
-     *    )
-     * )
-     */
+/**
+   * @OA\OpenApi(
+   *    @OA\Info(
+   *       title="Despesas API",
+   *       version="1.0.0",
+   *       description="API para gerenciamento de despesas",
+   *       @OA\Contact(
+   *           email="suporte@exemplo.com"
+   *       )
+   *    ),
+   *    @OA\Server(
+   *       url="http://localhost/",
+   *       description="Servidor local"
+   *    )
+   * )
+   */
 class ExpenseController extends Controller
 {
     use AuthorizesRequests;

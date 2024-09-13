@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Auth, Hash};
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use OpenApi\Annotations as OA;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
+
 class AuthController extends Controller
 {
     /**

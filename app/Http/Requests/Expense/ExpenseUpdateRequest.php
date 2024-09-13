@@ -17,7 +17,7 @@ class ExpenseUpdateRequest extends FormRequest
         return [
             'description' => 'string|min:5|max:191',
             'date'        => 'date|before_or_equal:today',
-            'amount'      => 'numeric|decimal:2|between:0.01,999999.99'
+            'amount'      => 'numeric|decimal:2|between:0.01,999999.99',
         ];
     }
 }

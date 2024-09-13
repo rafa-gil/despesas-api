@@ -33,7 +33,7 @@ class ExpenseNotification extends Notification implements ShouldQueue
             ->line('Foi criada uma nova despesa para o usuário.')
             ->line('Descrição: ' . $expense->description)
             ->line('Data: ' . $expense->date)
-            ->line('Valor: ' . $expense->amount_in_cents)
+            ->line('Valor: ' . $expense->amount)
             ->salutation('Atenciosamente, ' . config('app.name'));
     }
 }
